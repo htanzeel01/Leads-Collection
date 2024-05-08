@@ -1,5 +1,10 @@
 import os
+import smtplib
+import ssl
 import uuid
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer
@@ -52,7 +57,7 @@ class ClientDetailsPage:
                 # If the form is submitted, save the client details
                 self.save_client_details(session, name, phone, company_name, email,remarks,product_request, uploaded_files)
                 st.success("Client details saved!")
-                st.experimental_rerun
+
 
         # Close the session after operations
         session.close()
@@ -83,11 +88,54 @@ class ClientDetailsPage:
                                      product_request=product_request, picture=picture)
             session.add(new_client)
             session.commit()
+            self.send_email(name, phone, company_name, email, remarks, product_request, file_paths)
         except Exception as e:
             st.error(f"An error occurred while saving client details: {e}")
             session.rollback()
         finally:
             # It's important to close the session here if you are not using it further
             session.close()
+
+    def send_email(self, name, phone, company_name, email, remarks, product_request, file_paths):
+        # Compose the email
+        msg = MIMEMultipart()
+        msg['From'] = 'dcollection@mailfence.com'
+        msg['To'] = 'rabeet@cappah.com'
+        msg['Subject'] = 'New Client Details'
+
+        # Add text content to the email
+        email_body = f"""
+        New Client Details:
+        Name: {name}
+        Phone: {phone}
+        Company Name: {company_name}
+        Email: {email}
+        Remarks: {remarks}
+        Product Request: {product_request}
+        """
+        msg.attach(MIMEText(email_body, 'plain'))
+
+        # Attach uploaded files to the email
+        for file_path in file_paths:
+            with open(file_path, 'rb') as f:
+                attachment = MIMEImage(f.read(), name=os.path.basename(file_path))
+            msg.attach(attachment)
+
+        # Send the email
+        smtp_server = 'smtp.mailfence.com'
+        port = 465  # Mailfence typically uses port 465 for SMTP over SSL/TLS
+        sender_email = 'dcollection@mailfence.com'
+        password = 'ThisisData'  # Use your actual Mailfence password here
+
+        context = ssl.create_default_context()
+
+        try:
+            with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+                server.login(sender_email, password)
+                server.sendmail(sender_email, msg['To'], msg.as_string())
+            st.success("Email sent successfully!")
+        except Exception as e:
+            st.error(f"An error occurred while sending the email: {e}")
+
     def go_home(self):
         st.session_state['page'] = 'home'

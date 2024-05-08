@@ -7,13 +7,18 @@ from lead_details_page import LeadDetailsPage
 import os
 
 st.set_page_config(page_title="Inter Clean Data Collection", layout="wide")
-# Path to the image file
-image_path = os.path.join("designImage", "cappahlogo.png")
+# Path to the image files
+image_path1 = os.path.join("designImage", "cappahlogo.png")
+image_path2 = os.path.join("designImage", "final_logo_dcs.png")
 
-# Check if the image file exists
-if os.path.exists(image_path):
-    # Display the image
-    st.image(image_path, width=350)
+# Check if the image files exist
+if os.path.exists(image_path1) and os.path.exists(image_path2):
+    # Display images side by side with a little gap between them
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(image_path1, width=350)
+    with col2:
+        st.image(image_path2, width=350)
 PAGES = {
     "home": HomePage,
     "catalogue": CataloguePage,
