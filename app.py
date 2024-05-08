@@ -1,5 +1,3 @@
-import os
-
 import streamlit as st
 from home_page import HomePage
 from catalogue_page import CataloguePage
@@ -29,10 +27,8 @@ def main():
     page.render()
 
 
-port = int(os.environ.get('PORT', 5000))  # Default to port 5000 if PORT environment variable is not set
-
-if __name__ == '__main__':
-    st.run_server(port=port)
+if __name__ == "__main__":
+    main()
 
 
 
