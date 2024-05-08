@@ -23,12 +23,6 @@ class ClientDetailsPage:
 
         # Create a form for client details
         with st.form(key='client_details'):
-            selected_category_id = st.selectbox(
-                "Select Category",
-                list(category_options.keys()),
-                format_func=lambda x: category_options[x]
-            )
-
             # Retrieve previously selected products if any
             selected_products = st.session_state.get('selected_products', [])
 
@@ -51,9 +45,6 @@ class ClientDetailsPage:
             # File upload
             uploaded_files = st.file_uploader("Upload Files", accept_multiple_files=True)
 
-            # Webcam capture
-            webrtc_streamer(key="example", video_transformer_factory=None, async_transform=False)
-
             # Submit button for the client details form
             submit_client_details = st.form_submit_button("Submit Client Details")
 
@@ -61,6 +52,7 @@ class ClientDetailsPage:
                 # If the form is submitted, save the client details
                 self.save_client_details(session, name, phone, company_name, email,remarks,product_request, uploaded_files)
                 st.success("Client details saved!")
+                st.experimental_rerun
 
         # Close the session after operations
         session.close()

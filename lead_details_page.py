@@ -1,7 +1,10 @@
-import PIL
+from PIL import Image
 import streamlit as st
 import models as md
 import os
+import PIL
+
+
 
 class LeadDetailsPage:
 
@@ -10,6 +13,7 @@ class LeadDetailsPage:
         st.title('All Leads')
         st.button("Go Home", on_click=self.go_home)
         st.button("Enter Client Details", on_click=self.go_to_client_details)
+
 
         # Fetch all customers
         customers = self.get_all_customers()
@@ -28,19 +32,22 @@ class LeadDetailsPage:
                 self.display_product_request(customer.product_request)  # Display product request with new lines
 
                 # Display pictures if available
+                # Display picture if available
                 if customer.picture:
                     picture_paths = customer.picture.split('\n')  # Split by newline to handle multiple paths
                     for picture_path in picture_paths:
                         try:
+                            #PIL.Image.open(picture_path)
                             if os.path.exists(picture_path):
-                                PIL.Image.open(picture_path)  # Attempt to open the image
-                                st.image(picture_path, caption='Customer Picture', use_column_width=True)
+                                image = Image.open(picture_path)  # Attempt to open the image
+                                st.image(image, caption='Customer Picture', width=500)
                             else:
                                 st.write(f'Error: Image file not found at path: {picture_path}')
-                        except PIL.UnidentifiedImageError as e:
-                            st.write(f'Error: Unable to identify image file at path: {picture_path}')
+                        except Exception as e:
+                            st.write(f'Error: {e}')  # Print the full exception traceback
+                else:
+                    st.write('No picture available for this customer.')
                 st.write('---')  # Separator between leads
-
     def get_all_customers(self):
         return md.session.query(md.Customer).all()
 
