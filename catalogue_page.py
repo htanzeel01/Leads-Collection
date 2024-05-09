@@ -12,8 +12,10 @@ class CataloguePage:
     def render(self):
         st.header("Product Catalogue")
         # Navigation buttons
-        st.button("Go Home", on_click=self.go_home)
-        st.button("Enter Client Details", on_click=self.go_to_client_details)
+        if st.button("Go Home", on_click=self.go_home):
+            st.experimental_rerun()
+        if st.button("Enter Client Details", on_click=self.go_to_client_details):
+            st.experimental_rerun()
 
         search_query = st.text_input("Search for a product")
 

@@ -11,8 +11,10 @@ class LeadDetailsPage:
     # Main function to display lead details
     def render(self):
         st.title('All Leads')
-        st.button("Go Home", on_click=self.go_home)
-        st.button("Enter Client Details", on_click=self.go_to_client_details)
+        if st.button("Go Home", on_click=self.go_home):
+            st.experimental_rerun()
+        if st.button("Enter Client Details", on_click=self.go_to_client_details):
+            st.experimental_rerun()
 
 
         # Fetch all customers

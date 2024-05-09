@@ -13,7 +13,9 @@ import models as md
 class ClientDetailsPage:
     def render(self):
         st.header("Client Details")
-        st.button("Go Home", on_click=self.go_home)
+        if st.button("Go Home", on_click=self.go_home):
+            st.session_state.page = ""
+            st.experimental_rerun()
         prodName = ""
 
         # Start a session to query the database
@@ -25,6 +27,7 @@ class ClientDetailsPage:
         if st.button("Select Products"):
             #st.session_state['selected_category_id'] = selected_category_id
             st.session_state['page'] = 'select_products'
+            st.experimental_rerun()
 
         # Create a form for client details
         with st.form(key='client_details'):
