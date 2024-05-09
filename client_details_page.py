@@ -65,6 +65,10 @@ class ClientDetailsPage:
     def save_client_details(self, session, name, phone, company_name, email,remarks,product_request, uploaded_files):
         # This method saves client details to the database
         upload_dir = "uploaded_image"
+
+        # Create the directory if it doesn't exist
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
         try:
             # Save uploaded files to disk and get their file paths
             file_paths = []
