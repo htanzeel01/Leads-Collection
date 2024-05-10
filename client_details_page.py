@@ -53,19 +53,22 @@ class ClientDetailsPage:
             # File upload
             uploaded_files = st.file_uploader("Upload Files", accept_multiple_files=True)
 
+            #button check for dcs lead
+            dcs_checked = st.checkbox('DCS')
+
             # Submit button for the client details form
             submit_client_details = st.form_submit_button("Submit Client Details")
 
             if submit_client_details:
                 # If the form is submitted, save the client details
-                self.save_client_details(session, name, phone, company_name, email,remarks,product_request, uploaded_files)
+                self.save_client_details(session, name, phone, company_name, email,remarks,product_request, uploaded_files,dcs_checked)
                 st.success("Client details saved!")
 
 
         # Close the session after operations
         session.close()
 
-    def save_client_details(self, session, name, phone, company_name, email,remarks,product_request, uploaded_files):
+    def save_client_details(self, session, name, phone, company_name, email,remarks,product_request, uploaded_files,dcs_checked):
         # This method saves client details to the database
         upload_dir = "uploaded_image"
 
@@ -89,13 +92,22 @@ class ClientDetailsPage:
             # Convert the list of file paths to a single string
             # Use a delimiter if you want to separate multiple file paths
             picture = "\n".join(file_paths)
-
-            # Create a new client object with the file paths
-            new_client = md.Customer(name=name, phone=phone, company_name=company_name, email=email, remarks=remarks,
+            if (dcs_checked):
+                # Modify remarks to add a new line and 'Lead for DCS'
+                remarks += "\nLead for DCS"
+                new_client = md.Customer(name=name, phone=phone, company_name=company_name, email=email,
+                                         remarks=remarks,
+                                         product_request=product_request, picture=picture)
+                session.add(new_client)
+                session.commit()
+                self.send_email_dcs(name, phone, company_name, email, remarks, product_request, file_paths)
+            else:
+                # Create a new client object with the file paths
+                new_client = md.Customer(name=name, phone=phone, company_name=company_name, email=email, remarks=remarks,
                                      product_request=product_request, picture=picture)
-            session.add(new_client)
-            session.commit()
-            self.send_email(name, phone, company_name, email, remarks, product_request, file_paths)
+                session.add(new_client)
+                session.commit()
+                self.send_email(name, phone, company_name, email, remarks, product_request, file_paths)
         except Exception as e:
             st.error(f"An error occurred while saving client details: {e}")
             session.rollback()
@@ -108,6 +120,46 @@ class ClientDetailsPage:
         msg = MIMEMultipart()
         msg['From'] = 'dcollection@mailfence.com'
         msg['To'] = 'htanzeel04@gmail.com'
+        msg['Subject'] = 'New Client Details'
+
+        # Add text content to the email
+        email_body = f"""
+        New Client Details:
+        Name: {name}
+        Phone: {phone}
+        Company Name: {company_name}
+        Email: {email}
+        Remarks: {remarks}
+        Product Request: {product_request}
+        """
+        msg.attach(MIMEText(email_body, 'plain'))
+
+        # Attach uploaded files to the email
+        for file_path in file_paths:
+            with open(file_path, 'rb') as f:
+                attachment = MIMEImage(f.read(), name=os.path.basename(file_path))
+            msg.attach(attachment)
+
+        # Send the email
+        smtp_server = 'smtp.mailfence.com'
+        port = 465  # Mailfence typically uses port 465 for SMTP over SSL/TLS
+        sender_email = 'dcollection@mailfence.com'
+        password = 'ThisisData'  # Use your actual Mailfence password here
+
+        context = ssl.create_default_context()
+
+        try:
+            with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+                server.login(sender_email, password)
+                server.sendmail(sender_email, msg['To'], msg.as_string())
+            st.success("Email sent successfully!")
+        except Exception as e:
+            st.error(f"An error occurred while sending the email: {e}")
+    def send_email_dcs(self, name, phone, company_name, email, remarks, product_request, file_paths):
+        # Compose the email
+        msg = MIMEMultipart()
+        msg['From'] = 'dcollection@mailfence.com'
+        msg['To'] = 'tanzeel@rehman.nl'
         msg['Subject'] = 'New Client Details'
 
         # Add text content to the email

@@ -42,6 +42,7 @@ class Customer(Base):
     remarks = Column(String(250))
     product_request = Column(String(250))
     picture = Column(String(250))
+    created_at = Column(TIMESTAMP, server_default=func.now())
     products = relationship('Product', secondary=customer_product_association, back_populates='customers')
 
 
