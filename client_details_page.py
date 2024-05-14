@@ -61,12 +61,28 @@ class ClientDetailsPage:
 
             if submit_client_details:
                 # If the form is submitted, save the client details
-                self.save_client_details(session, name, phone, company_name, email,remarks,product_request, uploaded_files,dcs_checked)
+                self.save_client_details(session, name, phone, company_name, email, remarks, product_request,
+                                         uploaded_files, dcs_checked)
                 st.success("Client details saved!")
 
+                # # Reset input fields
+                # st.session_state['client_details.name'] = ""  # Clear name
+                # st.session_state['client_details.phone'] = ""  # Clear phone
+                # st.session_state['client_details.company_name'] = ""  # Clear company name
+                # st.session_state['client_details.email'] = ""  # Clear email
+                # st.session_state['client_details.remarks'] = ""  # Clear remarks
+                #
+                # # Clear product request
+                # st.session_state['client_details.product_request'] = ''
 
-        # Close the session after operations
-        session.close()
+                # Clear uploaded files
+                #st.session_state.pop('client_details.uploaded_files', None)
+
+                # Keep DCS checkbox checked
+                #st.session_state['client_details.dcs_checked'] = dcs_checked
+
+                # Close the session after operations
+            session.close()
 
     def save_client_details(self, session, name, phone, company_name, email,remarks,product_request, uploaded_files,dcs_checked):
         # This method saves client details to the database
@@ -119,7 +135,7 @@ class ClientDetailsPage:
         # Compose the email
         msg = MIMEMultipart()
         msg['From'] = 'dcollection@mailfence.com'
-        msg['To'] = 'htanzeel04@gmail.com'
+        msg['To'] = 'rabeet@cappah.com'
         msg['Subject'] = 'New Client Details'
 
         # Add text content to the email
@@ -159,7 +175,7 @@ class ClientDetailsPage:
         # Compose the email
         msg = MIMEMultipart()
         msg['From'] = 'dcollection@mailfence.com'
-        msg['To'] = 'tanzeel@rehman.nl'
+        msg['To'] = 'khalil@digitalcleansolution.com'
         msg['Subject'] = 'New Client Details'
 
         # Add text content to the email
