@@ -9,7 +9,7 @@ import os
 st.set_page_config(page_title="Inter Clean Data Collection", layout="wide")
 # Path to the image files
 image_path1 = os.path.join("designImage", "cappahlogo.png")
-image_path2 = os.path.join("designImage", "final_logo_dcs.png")
+image_path2 = os.path.join("designImage", "greenway.jpg")
 
 # Check if the image files exist
 if os.path.exists(image_path1) and os.path.exists(image_path2):
