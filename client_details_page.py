@@ -118,7 +118,7 @@ class ClientDetailsPage:
         # Compose the email
         msg = MIMEMultipart()
         msg['From'] = 'prove23t@mailfence.com'
-        msg['To'] = 'tanzeel@rehman.nl'
+        msg['To'] = 'rabeet@cappah.com'
         msg['Subject'] = 'New Client Details'
 
         # Add text content to the email
