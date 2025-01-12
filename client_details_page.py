@@ -117,8 +117,8 @@ class ClientDetailsPage:
     def send_email(self, name, phone, company_name, email, remarks, product_request, file_paths):
         # Compose the email
         msg = MIMEMultipart()
-        msg['From'] = 'exhibitcappah@mailfence.com'
-        msg['To'] = 'rabeet@cappah.com'
+        msg['From'] = 'cappahexhibit@zohomail.eu'  # Your Zoho email address
+        msg['To'] = 'rabeet@cappah.com'  # Recipient email address
         msg['Subject'] = 'New Client Details'
 
         # Add text content to the email
@@ -139,11 +139,11 @@ class ClientDetailsPage:
                 attachment = MIMEImage(f.read(), name=os.path.basename(file_path))
             msg.attach(attachment)
 
-        # Send the email
-        smtp_server = 'smtp.mailfence.com'
-        port = 465  # Mailfence typically uses port 465 for SMTP over SSL/TLS
-        sender_email = 'exhibitcappah@mailfence.com'
-        password = 'k_Kx/G-3yKr5Qf$'  # Use your actual Mailfence password here
+        # Send the email via Zoho SMTP
+        smtp_server = 'smtp.zoho.eu'  # Zoho SMTP server
+        port = 465  # SSL port
+        sender_email = 'cappahexhibit@zohomail.eu'  # Sender email address (Zoho)
+        password = 'ttgg.mC6rHD98uH'  # Use your Zoho password or app-specific password here
 
         context = ssl.create_default_context()
 
@@ -154,11 +154,12 @@ class ClientDetailsPage:
             st.success("Email sent successfully!")
         except Exception as e:
             st.error(f"An error occurred while sending the email: {e}")
+
     def send_email_dcs(self, name, phone, company_name, email, remarks, product_request, file_paths):
         # Compose the email
         msg = MIMEMultipart()
-        msg['From'] = 'exhibitcappah@mailfence.com'
-        msg['To'] = 'htanzeel04@gmail.com'
+        msg['From'] = 'cappahexhibit@zohomail.eu'  # Your Zoho email address
+        msg['To'] = 'htanzeel04@gmail.com'  # DCS recipient email address
         msg['Subject'] = 'New Client Details'
 
         # Add text content to the email
@@ -179,11 +180,11 @@ class ClientDetailsPage:
                 attachment = MIMEImage(f.read(), name=os.path.basename(file_path))
             msg.attach(attachment)
 
-        # Send the email
-        smtp_server = 'smtp.mailfence.com'
-        port = 465  # Mailfence typically uses port 465 for SMTP over SSL/TLS
-        sender_email = 'exhibitcappah@mailfence.com'
-        password = 'k_Kx/G-3yKr5Qf$'  # Use your actual Mailfence password here
+        # Send the email via Zoho SMTP
+        smtp_server = 'smtp.zoho.eu'  # Zoho SMTP server
+        port = 465  # SSL port
+        sender_email = 'cappahexhibit@zohomail.eu'  # Sender email address (Zoho)
+        password = 'ttgg.mC6rHD98uH'  # Use your Zoho password or app-specific password here
 
         context = ssl.create_default_context()
 
