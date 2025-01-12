@@ -117,7 +117,7 @@ class ClientDetailsPage:
     def send_email(self, name, phone, company_name, email, remarks, product_request, file_paths):
         # Compose the email
         msg = MIMEMultipart()
-        msg['From'] = 'prove23t@mailfence.com'
+        msg['From'] = 'exhibitcappah@mailfence.com'
         msg['To'] = 'rabeet@cappah.com'
         msg['Subject'] = 'New Client Details'
 
@@ -142,8 +142,8 @@ class ClientDetailsPage:
         # Send the email
         smtp_server = 'smtp.mailfence.com'
         port = 465  # Mailfence typically uses port 465 for SMTP over SSL/TLS
-        sender_email = 'prove23t@mailfence.com'
-        password = 'HelloWorld321!'  # Use your actual Mailfence password here
+        sender_email = 'exhibitcappah@mailfence.com'
+        password = 'k_Kx/G-3yKr5Qf$'  # Use your actual Mailfence password here
 
         context = ssl.create_default_context()
 
@@ -157,8 +157,8 @@ class ClientDetailsPage:
     def send_email_dcs(self, name, phone, company_name, email, remarks, product_request, file_paths):
         # Compose the email
         msg = MIMEMultipart()
-        msg['From'] = 'prove23t@mailfence.com'
-        msg['To'] = 'khalil@digitalcleansolution.com'
+        msg['From'] = 'exhibitcappah@mailfence.com'
+        msg['To'] = 'htanzeel04@gmail.com'
         msg['Subject'] = 'New Client Details'
 
         # Add text content to the email
@@ -182,8 +182,8 @@ class ClientDetailsPage:
         # Send the email
         smtp_server = 'smtp.mailfence.com'
         port = 465  # Mailfence typically uses port 465 for SMTP over SSL/TLS
-        sender_email = 'prove23t@mailfence.com'
-        password = 'HelloWorld321!'  # Use your actual Mailfence password here
+        sender_email = 'exhibitcappah@mailfence.com'
+        password = 'k_Kx/G-3yKr5Qf$'  # Use your actual Mailfence password here
 
         context = ssl.create_default_context()
 
